@@ -1,18 +1,18 @@
 library(rtweet)
 
-#setwd()
+setwd("~/GitHub/tweetminer")
 
 get_token()
 
 yesterday <- format(Sys.Date() - 1, "%Y-%m-%d")
-search <- "pflege lang:de -filter:retweets"
-range <- paste0("since:", yesterday)
-query <- paste(search, range)
-#env <- "mining"
-n <- 10000
-#safedir <- "tweets_pflege"
 
-file_to_save <- file.path("path", paste0("tweets", yesterday, ".RDS"))
+query <- paste("pflege lang:de -filter:retweets",
+               paste0("since:", yesterday))
+
+n <- 18000
+
+
+file_to_save <- file.path("data", paste0("tweets", yesterday, ".RDS"))
 
 todays_tweets <- search_tweets(q = query, n = n)
 
