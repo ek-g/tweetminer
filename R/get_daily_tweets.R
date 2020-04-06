@@ -17,3 +17,19 @@ file_to_save <- file.path("data", paste0("tweets", yesterday, ".RDS"))
 todays_tweets <- search_tweets(q = query, n = n, retryonratelimit = TRUE)
 
 saveRDS(todays_tweets, file_to_save)
+
+library(gmailr)
+
+my_address <- "eero@kuusisto.de"
+gm_auth_configure(path = "gmailr/credentials.json")
+gm_auth(my_address)
+
+email <-
+  gm_mime() %>%
+  gm_to(my_address) %>%
+  gm_from(my_address) %>%
+  gm_subject(paste("Tweets from", yesterday, "- twitterminer")) %>%
+  gm_text_body(paste(nrow(todays_tweets), "Tweets downloaded succesfully with the query:", query)) %>% 
+  gm_attach_file(file_to_save)
+
+gm_send_message(email)
