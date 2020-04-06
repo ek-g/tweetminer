@@ -14,6 +14,6 @@ n <- 18000
 
 file_to_save <- file.path("data", paste0("tweets", yesterday, ".RDS"))
 
-todays_tweets <- search_tweets(q = query, n = n)
+todays_tweets <- search_tweets(q = query, n = n, retryonratelimit = TRUE)
 
 saveRDS(todays_tweets, file_to_save)
