@@ -6,3 +6,5 @@
 *.RDS
 
 generate_tokens.R
+
+gmailr/
