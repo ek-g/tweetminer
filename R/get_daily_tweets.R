@@ -1,4 +1,6 @@
 library(rtweet)
+library(gmailr)
+library(googledrive)
 
 setwd("~/GitHub/tweetminer")
 
@@ -18,7 +20,7 @@ todays_tweets <- search_tweets(q = query, n = n, retryonratelimit = TRUE)
 
 saveRDS(todays_tweets, file_to_save)
 
-library(gmailr)
+# Send email (confirmation that the download completed)
 
 my_address <- "eero@kuusisto.de"
 gm_auth_configure(path = "gmailr/credentials.json")
@@ -33,3 +35,9 @@ email <-
   gm_attach_file(file_to_save)
 
 gm_send_message(email)
+
+# Upload to google_drive
+
+drive_auth(my_address)
+
+drive_upload(file_to_save, path = "~/Pflegetweets/", name = file_to_save)
