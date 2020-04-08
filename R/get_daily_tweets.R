@@ -13,12 +13,15 @@ query <- paste("pflege lang:de -filter:retweets",
 
 n <- 18000
 
+file_name <- paste0("tweets", yesterday, ".RDS")
 
-file_to_save <- file.path("data", paste0("tweets", yesterday, ".RDS"))
+file_path <-file.path("data", file_name)
+
+# Get tweets
 
 todays_tweets <- search_tweets(q = query, n = n, retryonratelimit = TRUE)
 
-saveRDS(todays_tweets, file_to_save)
+saveRDS(todays_tweets, file_path)
 
 # Send email (confirmation that the download completed)
 
@@ -32,7 +35,7 @@ email <-
   gm_from(my_address) %>%
   gm_subject(paste("Tweets from", yesterday, "- twitterminer")) %>%
   gm_text_body(paste(nrow(todays_tweets), "Tweets downloaded succesfully with the query:", query)) %>% 
-  gm_attach_file(file_to_save)
+  gm_attach_file(file_path)
 
 gm_send_message(email)
 
@@ -40,4 +43,4 @@ gm_send_message(email)
 
 drive_auth(my_address)
 
-drive_upload(file_to_save, path = "~/Pflegetweets/", name = file_to_save)
+drive_upload(file_path, path = "~/Pflegetweets/", name = file_name)
