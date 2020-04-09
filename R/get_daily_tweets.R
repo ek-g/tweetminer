@@ -11,7 +11,7 @@ yesterday <- format(Sys.Date() - 1, "%Y-%m-%d")
 query <- paste("pflege lang:de -filter:retweets",
                paste0("since:", yesterday))
 
-n <- 18000
+n <- 20000
 
 file_name <- paste0("tweets", yesterday, ".RDS")
 
